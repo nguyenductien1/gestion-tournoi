@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TournamentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -32,6 +34,16 @@ class Tournament
      * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $description;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Organizer::class, mappedBy="tourn")
+     */
+    private $org;
+
+    public function __construct()
+    {
+        $this->org = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -70,6 +82,36 @@ class Tournament
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Organizer[]
+     */
+    public function getOrg(): Collection
+    {
+        return $this->org;
+    }
+
+    public function addOrg(Organizer $org): self
+    {
+        if (!$this->org->contains($org)) {
+            $this->org[] = $org;
+            $org->setTourn($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrg(Organizer $org): self
+    {
+        if ($this->org->removeElement($org)) {
+            // set the owning side to null (unless already changed)
+            if ($org->getTourn() === $this) {
+                $org->setTourn(null);
+            }
+        }
 
         return $this;
     }

@@ -39,6 +39,21 @@ class Team
      */
     private $club;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Organizer::class, inversedBy="team")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $organizer;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Table::class, inversedBy="team")
+     */
+    private $tb;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Table::class, inversedBy="team")
+     */
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
@@ -114,4 +129,30 @@ class Team
 
         return $this;
     }
+
+    public function getOrganizer(): ?Organizer
+    {
+        return $this->organizer;
+    }
+
+    public function setOrganizer(?Organizer $organizer): self
+    {
+        $this->organizer = $organizer;
+
+        return $this;
+    }
+
+    public function getTb(): ?Table
+    {
+        return $this->tb;
+    }
+
+    public function setTb(?Table $tb): self
+    {
+        $this->tb = $tb;
+
+        return $this;
+    }
+
+
 }
