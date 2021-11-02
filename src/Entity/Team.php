@@ -51,6 +51,11 @@ class Team
     private $tb;
 
     /**
+     * @ORM\OneToOne(targetEntity=PreRegistration::class, mappedBy="team", cascade={"persist", "remove"})
+     */
+    private $r_team;
+
+    /**
      * @ORM\ManyToOne(targetEntity=Table::class, inversedBy="team")
      */
 
@@ -150,6 +155,23 @@ class Team
     public function setTb(?Table $tb): self
     {
         $this->tb = $tb;
+
+        return $this;
+    }
+
+    public function getRTeam(): ?PreRegistration
+    {
+        return $this->r_team;
+    }
+
+    public function setRTeam(PreRegistration $r_team): self
+    {
+        // set the owning side of the relation if necessary
+        if ($r_team->getTeam() !== $this) {
+            $r_team->setTeam($this);
+        }
+
+        $this->r_team = $r_team;
 
         return $this;
     }
