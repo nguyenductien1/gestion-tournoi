@@ -34,6 +34,11 @@ class Team
      */
     private $teamLevel;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Club::class, inversedBy="team")
+     */
+    private $club;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
@@ -94,6 +99,18 @@ class Team
     public function setTeamLevel(?string $teamLevel): self
     {
         $this->teamLevel = $teamLevel;
+
+        return $this;
+    }
+
+    public function getClub(): ?Club
+    {
+        return $this->club;
+    }
+
+    public function setClub(?Club $club): self
+    {
+        $this->club = $club;
 
         return $this;
     }

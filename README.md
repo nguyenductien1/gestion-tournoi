@@ -7,6 +7,7 @@ Use maker package: composer require symfony/maker-bundle --dev
 I created the entities by using symfony cli
 php bin/console make:entity
 php bin/console make:migration
+php bin/console doctrine:migrations:migrate
 - Event entity
 - Tournament
 - TypeGame
